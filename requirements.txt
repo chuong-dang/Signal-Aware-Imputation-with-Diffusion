@@ -1,0 +1,12 @@
+einops>=0.8
+fastparquet>=2024.0
+matplotlib>=3.8
+numpy>=1.26
+opt_einsum>=3.3
+pandas>=2.0
+pyarrow>=14.0
+PyYAML>=6.0
+scikit-learn>=1.4
+scipy>=1.11
+torch==2.5.1
+tqdm>=4.66

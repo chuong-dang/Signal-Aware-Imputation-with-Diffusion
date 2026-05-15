@@ -1,6 +1,6 @@
 # Reproducibility Package
 
-This folder contains the code used for the imputation experiments reported in the paper draft. It is intended as a compact public release: public benchmark experiments can be reproduced directly after downloading the datasets, while vehicle experiments are documented and runnable only with access to the private vehicle telemetry data.
+This folder contains the code used for the imputation experiments reported in the paper. It is intended as a compact public release: public benchmark experiments can be reproduced directly after downloading the datasets, while vehicle experiments are documented and runnable only with access to the private vehicle telemetry data.
 
 ## Scope
 
@@ -8,14 +8,13 @@ Included:
 - public dataset preprocessing for ETT, Electricity, Traffic, Weather, Exchange, Solar, and PEMS-style files
 - vehicle preprocessing hooks for local/private parquet trip data
 - S4 and score-based S4 imputation runners
-- thesis-style classical baselines: LOCF/NOCB, linear interpolation, rolling mean, and temporal KNN
+- classical baselines: LOCF/NOCB, linear interpolation, rolling mean, and temporal KNN
 - scripts for dual-space and per-signal analysis
 - lightweight summary of the preserved experiment results
 
 Not included:
 - private vehicle telemetry
 - generated cutout arrays, checkpoints, masks, plots, or caches
-- notebooks and exploratory local launch files
 
 ## Layout
 
@@ -53,9 +52,6 @@ The extension is optional; the S4 code falls back to a slower PyTorch path if it
 ## Public Datasets
 
 Public datasets are not redistributed in this repository. Download them from their upstream benchmark sources, then place the files under a local root such as:
-
-- ETT: https://github.com/zhouhaoyi/ETDataset
-- Electricity, Traffic, Weather, Exchange, Solar, PEMS-style benchmarks: https://github.com/thuml/Time-Series-Library
 
 ```text
 data/time_series_datasets/
@@ -110,7 +106,6 @@ python scripts/generate_cutout_datasets.py \
   --source vehicle \
   --vehicle-root /path/to/private/trips \
   --vehicle-resample-seconds 1 \
-  --include-vehicle-prefixes V55 V56 V57 V58 V59 \
   --output-root data/vehicle_cutouts_1hz
 ```
 
@@ -119,13 +114,10 @@ Pool vehicle cutouts:
 ```bash
 python scripts/build_pooled_vehicle_dataset.py \
   --datasets-root data/vehicle_cutouts_1hz \
-  --output-dir data/vehicle_V55_V59_pool_sample500_10pct_1hz \
+  --output-dir data/vehicle_pool_sample500_10pct_1hz \
   --sample-length 500 \
   --subset-fraction 0.1 \
-  --include-datasets vehicle_V55 vehicle_V56 vehicle_V57 vehicle_V58 vehicle_V59
 ```
-
-The paper experiments used a thesis-compatible signal subset for selected vehicle analyses. Because private signal names vary by fleet generation, the feature mapping should be adapted to the local schema before rerunning those experiments.
 
 ## Metrics
 
